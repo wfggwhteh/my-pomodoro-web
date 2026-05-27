@@ -128,7 +128,7 @@ def main(page: ft.Page):
         page.update()
 
     # ---------------- UI 元件建構 ----------------
-    # 1. 簽到卡片 (已修正：將 alignment 改為字串 "center")
+    # 1. 簽到卡片
     streak_text = ft.Text(f"🔥 連續備考：{streak_current} 天", size=18, weight=ft.FontWeight.BOLD, color="#e53e3e")
     max_text = ft.Text(f"🏆 最高紀錄：{streak_max} 天", size=12, color="grey600")
     streak_card = ft.Container(
@@ -169,7 +169,7 @@ def main(page: ft.Page):
             content=ft.Column([
                 ft.Text("Premium 備考防線", size=22, weight=ft.FontWeight.BOLD, color="#3182ce"),
                 ft.Text("行動端網頁同步系統", size=12, color="grey500"),
-                ft.VerticalDivider(height=10),
+                ft.Container(height=10), # 已修正：改用 Container 進行安全留白
                 streak_card,
                 timer_card,
                 record_card
