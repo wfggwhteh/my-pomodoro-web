@@ -3,7 +3,7 @@ import requests
 import datetime
 import time
 import os
-import random  # 補上隨機數套件，用於生成紀錄 ID
+import random
 
 # 你的專屬 Firebase 雲端資料庫網址
 FIREBASE_URL = "https://pomodoroapp-73355-default-rtdb.firebaseio.com/"
@@ -108,7 +108,6 @@ def main(page: ft.Page):
             start_btn.disabled = False
             pause_btn.disabled = True
             
-            # 計時完成，儲存紀錄並觸發自動簽到
             today_str = datetime.date.today().strftime("%Y-%m-%d")
             if today_str not in study_data:
                 study_data[today_str] = []
@@ -122,7 +121,7 @@ def main(page: ft.Page):
         list_views.controls.clear()
         day_records = study_data.get(today_str, [])
         if not day_records:
-            list_views.controls.append(ft.Text("今日尚無專注紀錄", italic=True, color=ft.colors.GREY_600))
+            list_views.controls.append(ft.Text("今日尚無專注紀錄", italic=True, color="grey600"))
         else:
             for idx, r in enumerate(day_records, 1):
                 list_views.controls.append(ft.Text(f"{idx}. [{r['subject']}] {r['mins']} 分鐘", size=14))
@@ -131,25 +130,25 @@ def main(page: ft.Page):
     # ---------------- UI 元件建構 ----------------
     # 1. 簽到卡片
     streak_text = ft.Text(f"🔥 連續備考：{streak_current} 天", size=18, weight=ft.FontWeight.BOLD, color="#e53e3e")
-    max_text = ft.Text(f"🏆 最高紀錄：{streak_max} 天", size=12, color=ft.colors.GREY_600)
+    max_text = ft.Text(f"🏆 最高紀錄：{streak_max} 天", size=12, color="grey600")
     streak_card = ft.Container(
         content=ft.Column([streak_text, max_text], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-        bgcolor=ft.colors.WHITE, padding=15, border_radius=12, alignment=ft.alignment.center, shadow=ft.BoxShadow(blur_radius=10, color="0x11000000")
+        bgcolor="white", padding=15, border_radius=12, alignment=ft.alignment.center, shadow=ft.BoxShadow(blur_radius=10, color="0x11000000")
     )
 
     # 2. 計時器卡片
     timer_text = ft.Text("25:00", size=64, weight=ft.FontWeight.BOLD, font_family="Arial", color="#1a202c")
-    start_btn = ft.ElevatedButton("開始", bgcolor="#38a169", color=ft.colors.WHITE, on_click=start_timer)
-    pause_btn = ft.ElevatedButton("暫停", bgcolor="#dd6b20", color=ft.colors.WHITE, disabled=True, on_click=pause_timer)
-    reset_btn = ft.ElevatedButton("重設", bgcolor="#e53e3e", color=ft.colors.WHITE, on_click=reset_timer)
+    start_btn = ft.ElevatedButton("開始", bgcolor="#38a169", color="white", on_click=start_timer)
+    pause_btn = ft.ElevatedButton("暫停", bgcolor="#dd6b20", color="white", disabled=True, on_click=pause_timer)
+    reset_btn = ft.ElevatedButton("重設", bgcolor="#e53e3e", color="white", on_click=reset_timer)
     
     timer_card = ft.Container(
         content=ft.Column([
-            ft.Text("專注倒數", size=14, weight=ft.FontWeight.BOLD, color=ft.colors.BLUE_GREY_400),
+            ft.Text("專注倒數", size=14, weight=ft.FontWeight.BOLD, color="bluegrey400"),
             timer_text,
             ft.Row([start_btn, pause_btn, reset_btn], alignment=ft.MainAxisAlignment.CENTER)
         ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=15),
-        bgcolor=ft.colors.WHITE, padding=25, border_radius=16, shadow=ft.BoxShadow(blur_radius=15, color="0x15000000")
+        bgcolor="white", padding=25, border_radius=16, shadow=ft.BoxShadow(blur_radius=15, color="0x15000000")
     )
 
     # 3. 今日明細卡片
@@ -161,7 +160,7 @@ def main(page: ft.Page):
     
     record_card = ft.Container(
         content=ft.Column([record_title, ft.Divider(), list_views]),
-        bgcolor=ft.colors.WHITE, padding=20, border_radius=12, shadow=ft.BoxShadow(blur_radius=10, color="0x11000000")
+        bgcolor="white", padding=20, border_radius=12, shadow=ft.BoxShadow(blur_radius=10, color="0x11000000")
     )
 
     # 將卡片排版到網頁上
@@ -169,17 +168,16 @@ def main(page: ft.Page):
         ft.Container(
             content=ft.Column([
                 ft.Text("Premium 備考防線", size=22, weight=ft.FontWeight.BOLD, color="#3182ce"),
-                ft.Text("行動端網頁同步系統", size=12, color=ft.colors.GREY_500),
+                ft.Text("行動端網頁同步系統", size=12, color="grey500"),
                 ft.VerticalDivider(height=10),
                 streak_card,
                 timer_card,
                 record_card
             ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=15),
-            width=400, # 限制網頁寬度，完美符合手機螢幕比例
+            width=400,
             padding=10
         )
     )
 
-# 雲端部署環境適應機制
 if __name__ == "__main__":
-    ft.app(target=main, port=int(os.environ.get("PORT", 8550)), view=ft.AppView.WEB_BROWSER)
+    ft.run(main, port=int(os.environ.get("PORT", 8550)))
