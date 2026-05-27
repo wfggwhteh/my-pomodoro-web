@@ -10,8 +10,8 @@ FIREBASE_URL = "https://pomodoroapp-73355-default-rtdb.firebaseio.com/"
 
 def main(page: ft.Page):
     page.title = "備考番茄鐘 行動網頁版"
-    page.vertical_alignment = ft.MainAxisAlignment.START
-    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
+    page.vertical_alignment = "start"
+    page.horizontal_alignment = "center"
     page.theme_mode = ft.ThemeMode.LIGHT
     page.bgcolor = "#f4f6f8"
     page.scroll = ft.ScrollMode.AUTO
@@ -128,12 +128,12 @@ def main(page: ft.Page):
         page.update()
 
     # ---------------- UI 元件建構 ----------------
-    # 1. 簽到卡片
+    # 1. 簽到卡片 (已修正：將 alignment 改為字串 "center")
     streak_text = ft.Text(f"🔥 連續備考：{streak_current} 天", size=18, weight=ft.FontWeight.BOLD, color="#e53e3e")
     max_text = ft.Text(f"🏆 最高紀錄：{streak_max} 天", size=12, color="grey600")
     streak_card = ft.Container(
-        content=ft.Column([streak_text, max_text], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-        bgcolor="white", padding=15, border_radius=12, alignment=ft.alignment.center, shadow=ft.BoxShadow(blur_radius=10, color="0x11000000")
+        content=ft.Column([streak_text, max_text], alignment="center", horizontal_alignment="center"),
+        bgcolor="white", padding=15, border_radius=12, alignment="center", shadow=ft.BoxShadow(blur_radius=10, color="0x11000000")
     )
 
     # 2. 計時器卡片
@@ -146,8 +146,8 @@ def main(page: ft.Page):
         content=ft.Column([
             ft.Text("專注倒數", size=14, weight=ft.FontWeight.BOLD, color="bluegrey400"),
             timer_text,
-            ft.Row([start_btn, pause_btn, reset_btn], alignment=ft.MainAxisAlignment.CENTER)
-        ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=15),
+            ft.Row([start_btn, pause_btn, reset_btn], alignment="center")
+        ], horizontal_alignment="center", spacing=15),
         bgcolor="white", padding=25, border_radius=16, shadow=ft.BoxShadow(blur_radius=15, color="0x15000000")
     )
 
@@ -173,7 +173,7 @@ def main(page: ft.Page):
                 streak_card,
                 timer_card,
                 record_card
-            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER, spacing=15),
+            ], horizontal_alignment="center", spacing=15),
             width=400,
             padding=10
         )
